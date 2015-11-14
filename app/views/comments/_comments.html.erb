@@ -1,0 +1,18 @@
+<% unless object.comments.empty? %>
+
+    <div id="post_comments">
+      <strong>Комментарии:</strong>
+      <hr>
+      <ul class="list-unstyled">
+        <% object.comments.each do |c| %>
+            <li>
+              <blockquote><small><%= c.body %></small></blockquote>
+              <small><cite><%= c.created_at.strftime("%d %b %Y at %H:%M") %></cite></small>
+              <hr>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+<% else %>
+    <p>Комментариев пока нет. Оставьте комментарий первым.</p>
+<% end %>
