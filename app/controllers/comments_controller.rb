@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
   before_action :set_post, only: :create
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :check_author, only: [:edit, :update, :destroy]
 
   def index
     @comments = Comment.all
@@ -18,6 +20,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @post.comments.new(comment_params)
+    @comment.user = current_user
 
     respond_to do |format|
       if @comment.save
@@ -58,5 +61,12 @@ class CommentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
       params.require(:comment).permit(:body)
+    end
+
+    def check_author
+      unless current_user.author_of?(@comment)
+        flash[:alert] = "У вас нет прав для выполнения этого действия"
+        redirect_to :root
+      end
     end
 end

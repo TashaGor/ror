@@ -9,6 +9,10 @@
     <%= f.label :body %><br>
     <%= f.text_area :body %>
   </div>
+    <div class="field">
+      <%= f.label :category_ids, 'Категории' %><br>
+      <%= f.collection_select :category_ids, Category.all, :id, :name, {}, { multiple: true } %>
+    </div>
   <div class="actions">
     <%= f.submit %>
   </div>

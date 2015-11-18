@@ -9,6 +9,10 @@
               <blockquote><small><%= c.body %></small></blockquote>
               <small><cite><%= c.created_at.strftime("%d %b %Y at %H:%M") %></cite></small>
               <hr>
+              <% if current_user && current_user.author_of?(c) %>
+                  <%= link_to 'Edit', edit_comment_path(c) %>
+                  <%= link_to 'Destroy', c, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
             </li>
         <% end %>
       </ul>

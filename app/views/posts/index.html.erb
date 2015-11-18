@@ -7,11 +7,17 @@
 
 <% @posts.each do |post| %>
     <h2><%= link_to post.title, post %></h2>
+    <p>
+      <strong>Категории:</strong>
+      <%= post.categories_titles %>
+    </p>
     <p><%= truncate(post.body, length: 100) %></p>
     <%= link_to 'Читать далее', post %>
     <br /><br />
-    <%= link_to 'Edit', edit_post_path(post) %>
-    <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% if current_user && current_user.author_of?(post) %>
+        <%= link_to 'Edit', edit_post_path(post) %>
+        <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
 <% end %>
 
 <%= link_to 'New Post', new_post_path %>
