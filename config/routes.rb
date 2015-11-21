@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   root 'posts#index'
 
+
+  namespace :admin do
+    resources :categories
+    resources :users, only: [:index,:destroy]
+  end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

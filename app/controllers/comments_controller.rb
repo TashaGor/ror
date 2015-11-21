@@ -64,7 +64,7 @@ class CommentsController < ApplicationController
     end
 
     def check_author
-      unless current_user.author_of?(@comment)
+      unless current_user.author_of?(@comment)  || current_user.admin?
         flash[:alert] = "У вас нет прав для выполнения этого действия"
         redirect_to :root
       end

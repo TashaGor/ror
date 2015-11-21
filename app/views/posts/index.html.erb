@@ -14,7 +14,7 @@
     <p><%= truncate(post.body, length: 100) %></p>
     <%= link_to 'Читать далее', post %>
     <br /><br />
-    <% if current_user && current_user.author_of?(post) %>
+    <% if current_user && (current_user.author_of?(post) || current_user.admin?)  %>
         <%= link_to 'Edit', edit_post_path(post) %>
         <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
     <% end %>

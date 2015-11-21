@@ -57,6 +57,11 @@
                   <%= link_to "Войти", new_user_session_path %>
               <% end %>
             </li>
+            <li>
+              <% if current_user && current_user.admin? %>
+                  <%= link_to 'Админка', admin_categories_path %>
+              <% end %>
+            </li>
           </ul>
         </div>
       </div>

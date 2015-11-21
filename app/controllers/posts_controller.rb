@@ -59,7 +59,7 @@ class PostsController < ApplicationController
     end
 
     def check_author
-      unless current_user.author_of?(@post)
+      unless current_user.author_of?(@post) || current_user.admin?
         flash[:alert] = "У вас нет прав для выполнения этого действия"
         redirect_to :root
       end
