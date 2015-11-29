@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
   has_many :posts
   has_many :comments, through: :posts
 
+  has_many :posts_subscribers
+  has_many :subscribed_posts, through: :posts_subscribers, source: :post
+
   def author_of?(object)
     id == object.user_id
   end

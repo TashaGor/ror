@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :posts do
+    get :unpublished, on: :collection
+    patch :unpublish, on: :member
+    patch :publish, on: :member
+    patch :subscribe, on: :member
     resources :comments, shallow: true
   end
   resources :categories, only: [:show]

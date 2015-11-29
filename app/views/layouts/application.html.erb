@@ -49,6 +49,7 @@
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
             <li><%= link_to 'Посты', posts_path  %></li>
+            <li><%= link_to "Черновики", unpublished_posts_path %></li>
             <li>
               <% if user_signed_in? %>
                   <%= link_to "Выйти", destroy_user_session_path, method: :delete %>

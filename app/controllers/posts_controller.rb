@@ -1,10 +1,15 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :publish, :unpublish, :subscribe]
   before_action :authenticate_user!, except: [:index, :show]
   before_action :check_author, only: [:edit, :update, :destroy]
 
   def index
-    @posts = Post.all
+    @posts = Post.reverse_order(:desc).published.all
+  end
+
+  def unpublished
+    @posts = Post.reverse_order(:desc).unpublished.all
+    render :index
   end
 
   def show
@@ -47,6 +52,29 @@ class PostsController < ApplicationController
     end
   end
 
+  def publish
+    @post.published = true
+    if @post.save
+      redirect_to unpublished_posts_path, notice: 'Пост успешно обновлен.'
+    else
+      render :edit
+    end
+  end
+
+  def unpublish
+    @post.published = false
+    if @post.save
+      redirect_to unpublished_posts_path, notice: 'Пост успешно обновлен.'
+    else
+      render :edit
+    end
+  end
+
+  def subscribe
+    @post.subscribers << current_user
+    redirect_to @post, notice: 'Вы подписались на этот пост.'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -55,7 +83,7 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :body, category_ids: [])
+      params.require(:post).permit(:title, :body, :published, category_ids: [])
     end
 
     def check_author
